@@ -20,7 +20,7 @@
 > If you want, write it yourself.
 
  
-### Pro~~glamour~~
+### Pro~~glamorous~~
  - 1420 이현서
 -
 -
@@ -28,7 +28,7 @@
 - 1117 이지호
 
 ### Directors
--1413 여지훈
+- 1413 여지훈
 -
 -
 
