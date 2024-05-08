@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using System;
-using System.Threading;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
-    public Dictionary<string, string>keyMap= new Dictionary<string, string>(); //키매핌
+    public Dictionary<string, string> keyMap = new Dictionary<string, string>(); // 키매핑
     int rot = 0;
     int lastRot = 0;
     int postRot;
@@ -22,47 +19,45 @@ public class PlayerController : MonoBehaviour
     public float dashJumpPower = 80f;
     public float dashSpeed = 24;
     public float dashRuntime = 0.113f;
-    public bool isDashing = false;
-    // Start is called before the first frame update
+    bool isDashing = false; // 대시 중인지 여부
+
     void Start()
     {
-        this.rb = GetComponent<Rigidbody2D>();
-        this.foot = GameObject.Find("foot");
-        this.footC = foot.GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
+        foot = GameObject.Find("foot");
+        footC = foot.GetComponent<Collider2D>();
 
-        //키매핑        
+        // 키매핑        
         keyMap.Add("Jump", "space");
         keyMap.Add("Left", "a");
         keyMap.Add("Right", "d");
         keyMap.Add("Dash", "left shift");
     }
-    
-    //발이 땅에 닿아있는지 판정함
+
     void OnTriggerStay2D(Collider2D footC)
     {
         isGround = true;
     }
-    void OnTriggerEnter2D(Collider2D footC) {
+
+    void OnTriggerEnter2D(Collider2D footC)
+    {
         isGround = true;
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         rot = 0;
         if (Input.GetKey(keyMap["Right"])) { rot = 1; lastRot = 1; }
         else if (Input.GetKey(keyMap["Left"])) { rot = -1; lastRot = -1; }
 
-        if (Input.GetKey(keyMap["Jump"]) && isGround) { Jump(); }
-        if (Input.GetKeyDown(keyMap["Dash"])) { Dash(); rot = lastRot;  }
+        if (Input.GetKeyDown(keyMap["Jump"]) && isGround && !isDashing) { Jump(); }
+        if (Input.GetKeyDown(keyMap["Dash"]) && !isDashing) { Dash(); }
     }
 
     void FixedUpdate()
     {
         rb.velocity = new Vector2(rot * speed, rb.velocity.y);
-        if( rb.velocity.y > 17) {new Vector2(rot * speed, 17);}
-
+        if (rb.velocity.y > 17) { rb.velocity = new Vector2(rb.velocity.x, 17); }
     }
 
     void Jump()
@@ -74,7 +69,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Jump");
     }
 
-    //dash
     void Dash()
     {
         isDashing = true; // 대시 시작
