@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public float dashJumpPower = 80f;
     public float dashSpeed = 24;
     public float dashRuntime = 0.113f;
+    public bool isDashing = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,14 +75,18 @@ public class PlayerController : MonoBehaviour
     }
 
     //dash
-    void Dash(){
-
-        rb.AddForce( new Vector2(0, dashJumpPower));
+    void Dash()
+    {
+        isDashing = true; // 대시 시작
+        rb.AddForce(new Vector2(0, dashJumpPower));
         speed = standardSpeed + dashSpeed;
-        Invoke("initSpeed", dashRuntime);
-        Debug.Log("dash!");
+        Invoke("EndDash", dashRuntime); // 대시 종료 예약
+        Debug.Log("Dash!");
     }
-    void initSpeed(){
-        speed = standardSpeed;
+
+    void EndDash()
+    {
+        isDashing = false; // 대시 종료
+        speed = standardSpeed; // 속도 초기화
     }
 }
