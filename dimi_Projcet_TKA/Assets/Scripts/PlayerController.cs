@@ -10,16 +10,18 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     public Dictionary<string, string>keyMap= new Dictionary<string, string>(); //키매핌
     int rot = 0;
+    int lastRot = 0;
     int postRot;
     GameObject foot;
     Collider2D footC;
-    public float speed = 7;
-    public float standardSpeed = 7;
+    public float speed = 12.5f;
+    public float standardSpeed = 12.5f;
     public float jumpPower = 300;
     public bool isGround = false;
     public bool isSlide = false;
-    public float timer = 0f;
-
+    public float dashJumpPower = 80f;
+    public float dashSpeed = 24;
+    public float dashRuntime = 0.113f;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,40 +29,39 @@ public class PlayerController : MonoBehaviour
         this.foot = GameObject.Find("foot");
         this.footC = foot.GetComponent<Collider2D>();
 
+        //키매핑        
         keyMap.Add("Jump", "space");
         keyMap.Add("Left", "a");
         keyMap.Add("Right", "d");
-        keyMap.Add("Slide", "s");
+        keyMap.Add("Dash", "left shift");
     }
     
+    //발이 땅에 닿아있는지 판정함
     void OnTriggerStay2D(Collider2D footC)
     {
         isGround = true;
     }
-
     void OnTriggerEnter2D(Collider2D footC) {
         isGround = true;
     }
+
+
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if(timer > 2000f ) { timer = 0f; }
         rot = 0;
-        if (isSlide == false) { speed = standardSpeed; }
-        if (Input.GetKey(keyMap["Right"])) { rot = 1; }
-        else if (Input.GetKey(keyMap["Left"])) { rot = -1; }
+        if (Input.GetKey(keyMap["Right"])) { rot = 1; lastRot = 1; }
+        else if (Input.GetKey(keyMap["Left"])) { rot = -1; lastRot = -1; }
 
-        if (Input.GetKeyDown(keyMap["Jump"]) && isGround) { Jump(); }
-        if (Input.GetKey(keyMap["Slide"])) { Slide(); }
-        if (Input.GetKeyUp(keyMap["Slide"])) { isSlide = false; }
-        
-        
+        if (Input.GetKey(keyMap["Jump"]) && isGround) { Jump(); }
+        if (Input.GetKeyDown(keyMap["Dash"])) { Dash(); rot = lastRot;  }
     }
 
     void FixedUpdate()
     {
         rb.velocity = new Vector2(rot * speed, rb.velocity.y);
+        if( rb.velocity.y > 17) {new Vector2(rot * speed, 17);}
+
     }
 
     void Jump()
@@ -70,21 +71,17 @@ public class PlayerController : MonoBehaviour
         isSlide = false;
         rb.AddForce(new Vector2(0, jumpPower));
         Debug.Log("Jump");
-
     }
 
-    void Slide()
-    {
-        if (!isSlide)
-        {
-            timer = 0;
-        }
+    //dash
+    void Dash(){
 
-        if (rot != 0 && isGround) {
-            isSlide = true; 
-            if (timer < 1.8) { speed = 9.5f; } else { speed = 4.5f; }
-        } else { speed = 4.5f; isSlide = true; }
-
-        
+        rb.AddForce( new Vector2(0, dashJumpPower));
+        speed = standardSpeed + dashSpeed;
+        Invoke("initSpeed", dashRuntime);
+        Debug.Log("dash!");
+    }
+    void initSpeed(){
+        speed = standardSpeed;
     }
 }
