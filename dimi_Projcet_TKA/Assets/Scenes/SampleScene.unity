@@ -1209,7 +1209,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 844746075}
@@ -1266,10 +1266,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5ffadba15ab6c48987da1f9d1b0ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  jumpingPower: 1200
+  speed: 150
+  jumpingPower: 1500
   friction: 5
-  maxSpeed: 20
+  maxSpeed: 120
   groundLayer:
     serializedVersion: 2
     m_Bits: 55

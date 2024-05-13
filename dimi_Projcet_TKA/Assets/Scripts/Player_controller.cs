@@ -15,7 +15,7 @@ public class Player_controller : MonoBehaviour
     public bool isGround = false; // 플레이어가 바닥에 있는지 여부
 
     private void Awake() {
-        // Application.targetFrameRate = 48;
+        Application.targetFrameRate = 60;
     }
     private void Start()
     {
@@ -23,10 +23,10 @@ public class Player_controller : MonoBehaviour
         footC = groundCheck.GetComponent<Collider2D>();
     }
 
-    void OnTriggerStay2D(Collider2D footC)
+    /*void OnTriggerStay2D(Collider2D footC)
     {
         isGround = true; 
-    }
+    }*/
 
     void OnTriggerEnter2D(Collider2D footC)
     {
@@ -56,14 +56,15 @@ public class Player_controller : MonoBehaviour
         rb.velocity = clampedVelocity;
 
     }
-    private float jumpCooldown = 0.1f; // 점프 쿨타임
+    private float jumpCooldown = 0.001f; // 점프 쿨타임
     private bool canJump = true; // 점프 가능 여부
 
     private void FixedUpdate() {
         if (Input.GetKeyDown(KeyCode.Space) && isGround && canJump) // 스페이스바를 누르고 바닥에 있는 경우에만 점프
         {
-            StartCoroutine(Jump());
             canJump = false; // 점프 후 점프 불가능 상태로 변경
+            isGround = false; // 바닥에서 떨어진 상태로 변경
+            StartCoroutine(Jump());
             StartCoroutine(ResetJumpCooldown()); // 점프 쿨타임 시작
         } 
     }
@@ -76,10 +77,10 @@ public class Player_controller : MonoBehaviour
     IEnumerator Jump()
     {
         isGround = false;
-        for (int i = 1; i <= 8; i++)
+        for (int i = 1; i <= 7; i++)
         {
-            rb.AddForce(new Vector2(0, jumpingPower / 6.0f));
-            yield return new WaitForSeconds(0.01f);
+            rb.AddForce(new Vector2(0, jumpingPower / 28.0f * (float)i));
+            yield return new WaitForSeconds(0.013f);
         }
         Debug.Log("Jump");
     }
