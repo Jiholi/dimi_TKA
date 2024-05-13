@@ -1063,6 +1063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 843851743}
   - component: {fileID: 843851742}
+  - component: {fileID: 843851746}
   - component: {fileID: 843851744}
   - component: {fileID: 843851741}
   - component: {fileID: 843851740}
@@ -1083,7 +1084,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 843851739}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9df9d04e74ded2147827de02bd0df482, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1135,7 +1136,7 @@ Rigidbody2D:
   m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 8.3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9df9d04e74ded2147827de02bd0df482, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1221,7 +1222,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843851739}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88f29242d887ccd4894dc4a4c9813813, type: 3}
   m_Name: 
@@ -1253,6 +1254,27 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &843851746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843851739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5ffadba15ab6c48987da1f9d1b0ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
+  jumpingPower: 15
+  friction: 5
+  maxSpeed: 20
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 55
+  groundCheck: {fileID: 844746075}
+  isGround: 0
 --- !u!1 &844746074
 GameObject:
   m_ObjectHideFlags: 0
