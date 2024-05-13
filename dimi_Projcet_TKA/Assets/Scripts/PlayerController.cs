@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     public float dashRuntime = 0.113f;
     bool isDashing = false; // 대시 중인지 여부
 
+    private void Awake() {
+        Application.targetFrameRate = 48;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

@@ -14,23 +14,30 @@ public class Player_controller : MonoBehaviour
     Collider2D footC; // 발 충돌체
     public bool isGround = false; // 플레이어가 바닥에 있는지 여부
 
+    private void Awake() {
+        // Application.targetFrameRate = 48;
+    }
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         footC = groundCheck.GetComponent<Collider2D>();
     }
 
-    void OnTriggerEnter2D(Collider2D footC)
+    void OnTriggerStay2D(Collider2D footC)
     {
-        if (footC.gameObject.layer != 6) // 6번 레이어가 아닌 경우에만 바닥으로 간주
-            isGround = true;
+        isGround = true; 
     }
 
-    void OnTriggerExit2D(Collider2D footC)
+    void OnTriggerEnter2D(Collider2D footC)
     {
-        if (footC.gameObject.layer != 6) // 6번 레이어가 아닌 경우에만 바닥으로 간주
-            isGround = false;
+        isGround = true;
     }
+
+    // void OnTriggerExit2D(Collider2D footC)
+    // {
+    //     if (footC.gameObject.layer != 6) // 6번 레이어가 아닌 경우에만 바닥으로 간주
+    //         isGround = false;
+    // }
 
     private void Update()
     {
@@ -48,9 +55,32 @@ public class Player_controller : MonoBehaviour
         Vector2 clampedVelocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
         rb.velocity = clampedVelocity;
 
-        if (Input.GetKey(KeyCode.Space) && isGround) // 스페이스바를 누르고 바닥에 있는 경우에만 점프
+    }
+    private float jumpCooldown = 0.1f; // 점프 쿨타임
+    private bool canJump = true; // 점프 가능 여부
+
+    private void FixedUpdate() {
+        if (Input.GetKeyDown(KeyCode.Space) && isGround && canJump) // 스페이스바를 누르고 바닥에 있는 경우에만 점프
         {
-            rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
+            StartCoroutine(Jump());
+            canJump = false; // 점프 후 점프 불가능 상태로 변경
+            StartCoroutine(ResetJumpCooldown()); // 점프 쿨타임 시작
         } 
+    }
+
+    IEnumerator ResetJumpCooldown()
+    {
+        yield return new WaitForSeconds(jumpCooldown);
+        canJump = true; // 점프 가능 상태로 변경
+    }
+    IEnumerator Jump()
+    {
+        isGround = false;
+        for (int i = 1; i <= 8; i++)
+        {
+            rb.AddForce(new Vector2(0, jumpingPower / 6.0f));
+            yield return new WaitForSeconds(0.01f);
+        }
+        Debug.Log("Jump");
     }
 }
