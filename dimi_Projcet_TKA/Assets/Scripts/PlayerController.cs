@@ -4,34 +4,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody2D rb;
-    public Dictionary<string, string> keyMap = new Dictionary<string, string>(); // 키매핑
-    int rot = 0;
-    int lastRot = 0;
-    int postRot;
-    GameObject foot;
-    Collider2D footC;
-    public float speed = 12.5f;
-    public float standardSpeed = 12.5f;
-    public float jumpPower = 300;
-    public bool isGround = false;
-    public bool isSlide = false;
-    public float dashJumpPower = 80f;
-    public float dashSpeed = 24;
-    public float dashRuntime = 0.113f;
-    bool isDashing = false; // 대시 중인지 여부
+    private Rigidbody2D rb;
+    private GameObject foot;
+    private Collider2D footC;
 
+    public Dictionary<string, string> keyMap = new Dictionary<string, string>(); // 키매핑
+    [SerializeField] private float rot = 0; // 현재 방향
+    [SerializeField] private int lastRot = 0; // 방향키를 때었을 때 마지막 이동 방향
+    [SerializeField] private float speed = 12.5f; // 현재 속도
+    [SerializeField] private float standardSpeed = 12.5f; //속도 초기화를 위한 기준속도
+    [SerializeField] private float jumpPower = 300;
+    [SerializeField] private bool isGround = false;
+
+
+    // 키매핑 설정
+    void Awake() {
+        keyMap.Add("Jump", "space");
+        keyMap.Add("Left", "a");
+        keyMap.Add("Right", "d");
+        keyMap.Add("Dash", "left shift");
+        
+    }
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         foot = GameObject.Find("foot");
         footC = foot.GetComponent<Collider2D>();
-
-        // 키매핑        
-        keyMap.Add("Jump", "space");
-        keyMap.Add("Left", "a");
-        keyMap.Add("Right", "d");
-        keyMap.Add("Dash", "left shift");
     }
 
     void OnTriggerStay2D(Collider2D footC)
@@ -46,12 +45,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        rot = 0;
         if (Input.GetKey(keyMap["Right"])) { rot = 1; lastRot = 1; }
         else if (Input.GetKey(keyMap["Left"])) { rot = -1; lastRot = -1; }
-
-        if (Input.GetKeyDown(keyMap["Jump"]) && isGround && !isDashing) { Jump(); }
-        if (Input.GetKeyDown(keyMap["Dash"]) && !isDashing) { Dash(); }
+        else if ( rot > 0 ) { rot = rot - 0.15f; }
+        else if ( rot < 0 ) { rot = rot + 0.15f; }
+        if (Input.GetKeyDown(keyMap["Jump"]) && isGround) { Jump(); }
     }
 
     void FixedUpdate()
@@ -64,23 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         speed = standardSpeed;
         isGround = false;
-        isSlide = false;
         rb.AddForce(new Vector2(0, jumpPower));
         Debug.Log("Jump");
-    }
-
-    void Dash()
-    {
-        isDashing = true; // 대시 시작
-        rb.AddForce(new Vector2(0, dashJumpPower));
-        speed = standardSpeed + dashSpeed;
-        Invoke("EndDash", dashRuntime); // 대시 종료 예약
-        Debug.Log("Dash!");
-    }
-
-    void EndDash()
-    {
-        isDashing = false; // 대시 종료
-        speed = standardSpeed; // 속도 초기화
     }
 }
