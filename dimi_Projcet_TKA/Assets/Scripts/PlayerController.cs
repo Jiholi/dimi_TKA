@@ -1,41 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController: MonoBehaviour
 {
-    private Rigidbody2D rb;
-    private GameObject foot;
-    private Collider2D footC;
+    [SerializeField] private float speed = 10; // 플레이어 이동 속도
+    [SerializeField] private float jumpingPower = 10; // 플레이어 점프 힘
+    [SerializeField] private float friction = 0.1f; // 플레이어 마찰력
+    [SerializeField] private float maxSpeed = 10; // 플레이어 최대 속력
+    [SerializeField] private int frameRate = 120; // 프레임
+    LayerMask groundLayer; // 바닥 레이어
+    Transform groundCheck; // 바닥 체크 위치
+    Rigidbody2D rb; // 플레이어의 Rigidbody2D 컴포넌트
+    Collider2D footC; // 발 충돌체
+    private bool isGround = false; // 플레이어가 바닥에 있는지 여부
+    private float jumpBufferTime = 0.1f; // 점프 버퍼링 지연 시간
+    private bool isJumpBuffered = false; // 점프 입력 버퍼링 여부
+    private bool canJump = true; // 점프 가능 여부
 
-    public Dictionary<string, string> keyMap = new Dictionary<string, string>(); // 키매핑
-    [SerializeField] private float rot = 0; // 현재 방향
-    [SerializeField] private int lastRot = 0; // 방향키를 때었을 때 마지막 이동 방향
-    [SerializeField] private float speed = 12.5f; // 현재 속도
-    [SerializeField] private float standardSpeed = 12.5f; //속도 초기화를 위한 기준속도
-    [SerializeField] private float jumpPower = 300;
-    [SerializeField] private bool isGround = false;
 
+    private Vector2 moveDirection;
+    private Vector2 frictionForce;
 
-    // 키매핑 설정
     void Awake() {
-        keyMap.Add("Jump", "space");
-        keyMap.Add("Left", "a");
-        keyMap.Add("Right", "d");
-        keyMap.Add("Dash", "left shift");
-        
+        Application.targetFrameRate = frameRate; // 프레임율 설정
     }
-    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        foot = GameObject.Find("foot");
-        footC = foot.GetComponent<Collider2D>();
-    }
-
-    void OnTriggerStay2D(Collider2D footC)
-    {
-        isGround = true;
+        footC = groundCheck.GetComponent<Collider2D>();
     }
 
     void OnTriggerEnter2D(Collider2D footC)
@@ -43,26 +37,55 @@ public class PlayerController : MonoBehaviour
         isGround = true;
     }
 
+
     void Update()
     {
-        if (Input.GetKey(keyMap["Right"])) { rot = 1; lastRot = 1; }
-        else if (Input.GetKey(keyMap["Left"])) { rot = -1; lastRot = -1; }
-        else if ( rot > 0 ) { rot = rot - 0.15f; }
-        else if ( rot < 0 ) { rot = rot + 0.15f; }
-        if (Input.GetKeyDown(keyMap["Jump"]) && isGround) { Jump(); }
+        float horizontalInput = Input.GetAxis("Horizontal"); // 수평 입력 값
+        moveDirection = new Vector2(horizontalInput, 0); // 이동 방향 벡터
+        frictionForce = new Vector2(-rb.velocity.x * friction, 0); // 플레이어에게 가해지는 마찰력을 계산합니다.
+        
+
+        // 플레이어의 속력을 제한하여 최대 속력을 유지합니다.
+        Vector2 clampedVelocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
+        rb.velocity = clampedVelocity;
+
+        if (isGround== true) { canJump = true; }
+        if (Input.GetKeyDown(KeyCode.Space)  && canJump)
+        {
+            if (isGround) // 바닥에 있으면 일반 점프 실행
+            {
+                canJump = false;
+                isGround = false;
+                Jump();
+            } else {
+                // 바닥에 없으면 점프 입력 버퍼링
+                isJumpBuffered = true;
+                jumpBufferTime = 0.3f; // 버퍼링 시간 초기화
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(rot * speed, rb.velocity.y);
-        if (rb.velocity.y > 17) { rb.velocity = new Vector2(rb.velocity.x, 17); }
+        // 점프 버퍼링 확인 및 실행
+        if (isJumpBuffered && !isGround)
+        {
+            if (jumpBufferTime <0) { jumpBufferTime -= Time.deltaTime; } 
+            else {
+                isJumpBuffered = false;
+                canJump = false;
+                isGround = false;
+                Jump();
+            }
+        }
+
+        rb.AddForce(frictionForce, ForceMode2D.Force);
+        rb.AddForce(moveDirection * speed); // 플레이어 이동
     }
 
     void Jump()
     {
-        speed = standardSpeed;
+        rb.AddForce(new Vector2(0, jumpingPower / 28.0f * 23.5f));
         isGround = false;
-        rb.AddForce(new Vector2(0, jumpPower));
-        Debug.Log("Jump");
     }
 }

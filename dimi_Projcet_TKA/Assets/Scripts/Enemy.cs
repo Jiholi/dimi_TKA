@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class DefaultEnemy : MonoBehaviour
 {
 
     Collider2D col ; // 콜라이더
-    protected public int hp;
+    int hp = 20;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
             Debug.Log("this object dead");
         }
     }
-    virtual public void Update()
+    void Update()
     {
         
     }

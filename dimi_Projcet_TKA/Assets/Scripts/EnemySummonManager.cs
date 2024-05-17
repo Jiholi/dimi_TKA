@@ -11,6 +11,10 @@ public class EnemySummonManager : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D col){
-        
+        Summon();
+    }
+
+    void Summon(){
+        // 특정 구역 입장시 적 소환 
     }
 }

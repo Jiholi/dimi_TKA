@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Bullet : MonoBehaviour
+public class BulletManager : MonoBehaviour
 {
     public int Damage = 5;    
     float DeadTime; // 총알이 삭제될 시간
