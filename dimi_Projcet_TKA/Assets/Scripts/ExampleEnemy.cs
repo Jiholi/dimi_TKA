@@ -5,6 +5,6 @@ using UnityEngine;
 public class ExampleEnemy : Enemy
 {
     void Awake(){
-        hp = 20;
+        // hp = 20;
     }
 }

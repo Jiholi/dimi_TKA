@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
 
     Collider2D col ; // 콜라이더
-    protected public int hp;
+    // protected public int hp;
 
     // Start is called before the first frame update
     void Start()
@@ -20,8 +20,8 @@ public class Enemy : MonoBehaviour
     {
         if(other.gameObject.tag.Equals("Bullet")) {
             int damage = other.GetComponent<BulletManager>().Damage;
-            hp = hp - damage;
-            if ( hp < 0 ){Destroy(this.gameObject);} 
+            // hp = hp - damage;
+            // if ( hp < 0 ){Destroy(this.gameObject);} 
             Debug.Log("this object dead");
         }
     }

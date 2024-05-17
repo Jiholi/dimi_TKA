@@ -1267,6 +1267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 843851743}
   - component: {fileID: 843851742}
+  - component: {fileID: 843851746}
   - component: {fileID: 843851744}
   - component: {fileID: 843851741}
   - component: {fileID: 843851740}
@@ -1425,17 +1426,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843851739}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88f29242d887ccd4894dc4a4c9813813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7
-  standardSpeed: 7
-  jumpPower: 1150
-  isGround: 0
-  isSlide: 0
-  timer: 0
+  jumpingPower: 10
+  friction: 0.1
+  maxSpeed: 10
+  frameRate: 120
 --- !u!251 &843851745
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -1455,6 +1455,23 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &843851746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843851739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f29242d887ccd4894dc4a4c9813813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  jumpingPower: 10
+  friction: 0.1
+  maxSpeed: 10
+  frameRate: 120
 --- !u!1 &844746074
 GameObject:
   m_ObjectHideFlags: 0

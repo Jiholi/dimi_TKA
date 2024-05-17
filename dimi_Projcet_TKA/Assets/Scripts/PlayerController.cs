@@ -13,7 +13,7 @@ public class PlayerController: MonoBehaviour
     LayerMask groundLayer; // 바닥 레이어
     Transform groundCheck; // 바닥 체크 위치
     Rigidbody2D rb; // 플레이어의 Rigidbody2D 컴포넌트
-    Collider2D footC; // 발 충돌체
+    Collider2D footCollider; // 발 충돌체
     private bool isGround = false; // 플레이어가 바닥에 있는지 여부
     private float jumpBufferTime = 0.1f; // 점프 버퍼링 지연 시간
     private bool isJumpBuffered = false; // 점프 입력 버퍼링 여부
@@ -24,20 +24,16 @@ public class PlayerController: MonoBehaviour
     private Vector2 frictionForce;
 
     void Awake() {
-        Application.targetFrameRate = frameRate; // 프레임율 설정
+        // Application.targetFrameRate = frameRate; // 프레임율 설정
     }
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        footC = groundCheck.GetComponent<Collider2D>();
+        this.rb = GetComponent<Rigidbody2D>();
+        this.footCollider = gameObject.GetComponent<Collider2D>();
     }
 
-    void OnTriggerEnter2D(Collider2D footC)
-    {
-        isGround = true;
-    }
-
-
+    void OnTriggerEnter2D(Collider2D footCollider) { isGround = true; }
+    void OnTriggerExit2D(Collider2D footCollider){ isGround = false; }
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal"); // 수평 입력 값
