@@ -13,13 +13,13 @@ GameObject:
   - component: {fileID: 7991066533776882356}
   - component: {fileID: 6084034774649792282}
   - component: {fileID: 6448675472869560428}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &997497195915236866
 Transform:
   m_ObjectHideFlags: 0
@@ -161,3 +161,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3938d2e211def145a052ffe78969f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  me: {fileID: 9136523509718749208}

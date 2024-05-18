@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class EnemySummonManager : MonoBehaviour
 {
-    Collider2D col;
+    Collider2D collid;
+    public GameObject defaultEnemy;
+    public GameObject rangerEnemy;
+
     private 
     void Awake (){
-        col = gameObject.GetComponent<Collider2D>();
+        collid = gameObject.GetComponent<Collider2D>();
     }
 
-    void OnTriggerEnter2D(Collider2D col){
+    void OnTriggerEnter2D(Collider2D collider){
         Summon();
     }
 
