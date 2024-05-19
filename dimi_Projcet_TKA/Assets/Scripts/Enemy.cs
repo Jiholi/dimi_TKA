@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 
             if (colleague_delay == 0)
             {
-                int n = 1000;
+                int n = 1500;
                 int damage = other.GetComponent<Bullet>().Damage;
                 Debug.Log("Ãæµ¹");
                 rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n, 1000));
