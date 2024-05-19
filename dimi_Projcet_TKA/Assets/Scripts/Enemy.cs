@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     GameObject player;
     public GameObject me;
     Rigidbody2D rb;
+    public float friction;
+    public float colleague_delay = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -25,16 +27,34 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Bullet")
         {
-            int n = 1000;
-            int damage = other.GetComponent<Bullet>().Damage;
-            Debug.Log("충돌");
-            rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation  * n, 1000));
-            hp = hp - damage;
-            if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
+
+            if (colleague_delay == 0)
+            {
+                int n = 1000;
+                int damage = other.GetComponent<Bullet>().Damage;
+                Debug.Log("충돌");
+                rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n, 1000));
+                hp = hp - damage;
+                if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
+                colleague_delay = 0.2f;
+            }
         }
+    }
+    void Update()
+    {
+            Vector2 frictionforce = new Vector2(-rb.velocity.x, 0);
+            rb.AddForce(frictionforce * friction, ForceMode2D.Force);
     }
 
 
+    private void FixedUpdate()
+    {
+        if (colleague_delay > 0)
+        {
+            colleague_delay -= Time.deltaTime;
+        }
+        else colleague_delay = 0;
+    }
 
 
 

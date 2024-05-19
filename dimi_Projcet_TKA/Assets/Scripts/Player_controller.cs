@@ -6,7 +6,7 @@ public class Player_controller : MonoBehaviour
 {
     public float speed = 10; // 플레이어 이동 속도
     public float jumpingPower = 10; // 플레이어 점프 힘
-    public float friction = 0.1f; // 플레이어 마찰력
+    public float friction = 6f; // 플레이어 마찰력
     public float maxSpeed = 10; // 플레이어 최대 속력
     public LayerMask groundLayer; // 바닥 레이어
     public Transform groundCheck; // 바닥 체크 위치
