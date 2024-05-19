@@ -13,9 +13,12 @@ public class Player_controller : MonoBehaviour
     private Rigidbody2D rb; // 플레이어의 Rigidbody2D 컴포넌트
     Collider2D footC; // 발 충돌체
     public bool isGround = false; // 플레이어가 바닥에 있는지 여부
+    private float jumpBufferTime = 0.2f; // 점프 버퍼링 지연 시간
+    private bool isJumpBuffered = false; // 점프 입력 버퍼링 여부
 
-    private void Awake() {
-        Application.targetFrameRate = 60;
+    private void Awake()
+    {
+        Application.targetFrameRate = 120;
     }
     private void Start()
     {
@@ -23,21 +26,11 @@ public class Player_controller : MonoBehaviour
         footC = groundCheck.GetComponent<Collider2D>();
     }
 
-    /*void OnTriggerStay2D(Collider2D footC)
-    {
-        isGround = true; 
-    }*/
-
     void OnTriggerEnter2D(Collider2D footC)
     {
         isGround = true;
     }
 
-    // void OnTriggerExit2D(Collider2D footC)
-    // {
-    //     if (footC.gameObject.layer != 6) // 6번 레이어가 아닌 경우에만 바닥으로 간주
-    //         isGround = false;
-    // }
 
     private void Update()
     {
@@ -55,33 +48,70 @@ public class Player_controller : MonoBehaviour
         Vector2 clampedVelocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
         rb.velocity = clampedVelocity;
 
+        if (isGround == true)
+        {
+            canJump = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        {
+            if (isGround)
+            {
+                // 바닥에 있으면 일반 점프 실행
+                canJump = false;
+                isGround = false;
+                Jump();
+            }
+            else
+            {
+                // 바닥에 없으면 점프 입력 버퍼링
+                isJumpBuffered = true;
+                jumpBufferTime = 0.3f; // 버퍼링 시간 초기화
+            }
+
+        }
+
     }
-    private float jumpCooldown = 0.001f; // 점프 쿨타임
+
     private bool canJump = true; // 점프 가능 여부
 
-    private void FixedUpdate() {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround && canJump) // 스페이스바를 누르고 바닥에 있는 경우에만 점프
-        {
-            canJump = false; // 점프 후 점프 불가능 상태로 변경
-            isGround = false; // 바닥에서 떨어진 상태로 변경
-            StartCoroutine(Jump());
-            StartCoroutine(ResetJumpCooldown()); // 점프 쿨타임 시작
-        } 
+    private void Jump()
+    {
+        rb.AddForce(new Vector2(0, jumpingPower / 28.0f * 23.5f));
+        isGround = false;
     }
 
-    IEnumerator ResetJumpCooldown()
+    private void FixedUpdate()
     {
-        yield return new WaitForSeconds(jumpCooldown);
-        canJump = true; // 점프 가능 상태로 변경
-    }
-    IEnumerator Jump()
-    {
-        isGround = false;
-        for (int i = 1; i <= 7; i++)
+        // 점프 버퍼링 확인 및 실행
+        if (isJumpBuffered && !isGround)
         {
-            rb.AddForce(new Vector2(0, jumpingPower / 28.0f * (float)i));
-            yield return new WaitForSeconds(0.013f);
+            if (jumpBufferTime < 0)
+            {
+                jumpBufferTime -= Time.deltaTime;
+            }
+            else
+            {
+                isJumpBuffered = false;
+                canJump = false;
+                isGround = false;
+                Jump();
+            }
         }
-        Debug.Log("Jump");
+
+    }
+
+
+
+    void TurnBack()
+    {
+        transform.position = new Vector2(0, 0);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.CompareTag("parkour"))
+        {
+            TurnBack();
+        }
     }
 }
