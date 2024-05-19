@@ -523,8 +523,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultBullet: {fileID: 4804130580528308670, guid: da590079b6f7c854691fbac018745917, type: 3}
+  slash: {fileID: 7785709692753818154, guid: 6f193397b736d7b408fc823e2bcb44e5, type: 3}
   Player: {fileID: 843851743}
   dir: {x: 0, y: 0, z: 0}
+  delay: 0
 --- !u!1 &844746074
 GameObject:
   m_ObjectHideFlags: 0

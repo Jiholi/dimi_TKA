@@ -25,7 +25,7 @@ public class PlayerController: MonoBehaviour
     }
 
     // 플레이어가 땅을 밟고 있는지 판정함.
-    void OnTriggerEnter2D(Collider2D footCollider) { isGround = true; }
+    void OnTriggerStay2D(Collider2D footCollider) { isGround = true; }
     void OnTriggerExit2D(Collider2D footCollider) { isGround = false; }
 
     //키입력
@@ -52,7 +52,6 @@ public class PlayerController: MonoBehaviour
     void Jump()
     {
         speed = standardSpeed;
-        isGround = false;
         rb.AddForce(new Vector2(0, jumpPower));
         Debug.Log("Jump");
     }

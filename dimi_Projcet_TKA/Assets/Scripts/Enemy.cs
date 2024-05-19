@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
             if ( hp <= 0 ){Destroy(me); Debug.Log("this object dead");}  
         }
     }
+
+    
     
     
 

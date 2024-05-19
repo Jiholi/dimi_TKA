@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
     /// </summary>
     [SerializeField] float lifeTime; 
     /// <summary>
-    /// 총알 종류. bullet/bomb/lazer 순서대로 1/2/3
+    /// 총알 종류. bullet/slash/lazer 순서대로 1/2/3
     /// </summary>
     [SerializeField] int attackType = 1;
     /// <summary>
@@ -21,15 +21,19 @@ public class Bullet : MonoBehaviour
     [SerializeField] int throwPower = 100;
     Rigidbody2D rb;
     GameObject player;
+    Transform transf;
 
     void Start(){
         
         player = GameObject.Find("Player");
         Destroy(this.gameObject, lifeTime);
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        transf = this.gameObject.GetComponent<Transform>();
 
         if(attackType == 1) {
             defaultBullet(player.GetComponent<CombatManager>().dir * throwPower);
+        } else if(attackType == 2){
+            defaultSlash(player.GetComponent<PlayerController>().lastRotation);
         }
     }
 
@@ -37,13 +41,18 @@ public class Bullet : MonoBehaviour
         
     }
 
-    public void defaultBullet(Vector3 throwDirection)
+    void defaultSlash(float rot){
+        if(rot > 0){ transf.localPosition = new Vector2(2.3f, 0); }
+        else { transf.localPosition= new Vector2(-2.3f, 0);} 
+    }
+
+    void defaultBullet(Vector3 throwDirection)
     {
         rb.AddForce(throwDirection * throwPower);       
         Debug.Log("shoot"); 
     }
 
-    void hitScan()
+    void charge()
     {
 
     }
