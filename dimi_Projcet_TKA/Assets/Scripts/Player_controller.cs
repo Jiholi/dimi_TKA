@@ -15,6 +15,7 @@ public class Player_controller : MonoBehaviour
     public bool isGround = false; // 플레이어가 바닥에 있는지 여부
     private float jumpBufferTime = 0.2f; // 점프 버퍼링 지연 시간
     private bool isJumpBuffered = false; // 점프 입력 버퍼링 여부
+    public float lastRotation = 1; // 플레이어가 바라보고 있는 방향.
 
     private void Awake()
     {
@@ -36,6 +37,13 @@ public class Player_controller : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal"); // 수평 입력 값
         Vector2 moveDirection = new Vector2(horizontalInput, 0); // 이동 방향 벡터
+
+        if (horizontalInput != 0)
+        {
+            if (horizontalInput > 0) { lastRotation = 1; }
+            else { lastRotation = -1; }
+        }
+         
 
         // 플레이어에게 가해지는 마찰력을 계산합니다.
         Vector2 frictionForce = new Vector2(-rb.velocity.x * friction, 0);
