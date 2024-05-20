@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     public int jump_percentage = 10;
     public int jump_power = 100;
     public bool is_ground = true;
+    public int attack_power = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
                 if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
                 colleague_delay = 0.2f;
             }
+            is_ground = false;
         }
         else is_ground = true;
     }

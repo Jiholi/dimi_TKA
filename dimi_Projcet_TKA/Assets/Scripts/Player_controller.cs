@@ -16,6 +16,8 @@ public class Player_controller : MonoBehaviour
     private float jumpBufferTime = 0.2f; // 점프 버퍼링 지연 시간
     private bool isJumpBuffered = false; // 점프 입력 버퍼링 여부
     public float lastRotation = 1; // 플레이어가 바라보고 있는 방향.
+    public int hp = 100; // 플레이어 hp
+    int full_hp = 100;
 
     private void Awake()
     {
@@ -25,9 +27,10 @@ public class Player_controller : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         footC = groundCheck.GetComponent<Collider2D>();
+        full_hp = hp;
     }
 
-    void OnTriggerEnter2D(Collider2D footC)
+    void OnTriggerEnter2D(Collider2D other)
     {
         isGround = true;
     }
@@ -113,6 +116,7 @@ public class Player_controller : MonoBehaviour
     void TurnBack()
     {
         transform.position = new Vector2(0, 0);
+        hp = full_hp;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -120,6 +124,14 @@ public class Player_controller : MonoBehaviour
         if (collision.collider.gameObject.CompareTag("parkour"))
         {
             TurnBack();
+        }
+        if (collision.collider.gameObject.CompareTag("Enemy"))
+        {
+            hp -= collision.collider.GetComponent<Enemy>().attack_power;
+            if (hp <= 0)
+            {
+                TurnBack();
+            }
         }
     }
 }

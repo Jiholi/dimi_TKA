@@ -3694,6 +3694,7 @@ MonoBehaviour:
   groundCheck: {fileID: 844746075}
   isGround: 0
   lastRotation: 1
+  hp: 100
 --- !u!1 &844746074
 GameObject:
   m_ObjectHideFlags: 0
@@ -4235,6 +4236,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3199861626825785382, guid: 42fac8449f6712c4c901176f7f25e3f0, type: 3}
       propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199861626825785382, guid: 42fac8449f6712c4c901176f7f25e3f0, type: 3}
+      propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 6753752134222472786, guid: 42fac8449f6712c4c901176f7f25e3f0, type: 3}
