@@ -29,8 +29,13 @@ Transform:
   m_GameObject: {fileID: 3199861626825785382}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< Updated upstream
   m_LocalPosition: {x: 11.1387, y: -4.93, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
+=======
+  m_LocalPosition: {x: 10.56, y: -4.93, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+>>>>>>> Stashed changes
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8191786805643987573}
@@ -52,6 +57,13 @@ MonoBehaviour:
   me: {fileID: 3199861626825785382}
   friction: 0
   colleague_delay: 0
+<<<<<<< Updated upstream
+=======
+  move_speed: 10
+  jump_percentage: 10
+  jump_power: 100
+  is_ground: 1
+>>>>>>> Stashed changes
 --- !u!212 &7487775775980317116
 SpriteRenderer:
   m_ObjectHideFlags: 0

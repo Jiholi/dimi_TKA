@@ -30,10 +30,17 @@ public class Enemy : MonoBehaviour
 
             if (colleague_delay == 0)
             {
+<<<<<<< Updated upstream
                 int n = 2000;
                 int damage = other.GetComponent<Bullet>().Damage;
                 Debug.Log("충돌");
                 rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n, 500));
+=======
+                int n = 1600;
+                int damage = other.GetComponent<Bullet>().Damage;
+                Debug.Log("충돌");
+                rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n, 300));
+>>>>>>> Stashed changes
                 hp = hp - damage;
                 if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
                 colleague_delay = 0.3f;
