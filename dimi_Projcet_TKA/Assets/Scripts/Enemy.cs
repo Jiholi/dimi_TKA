@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
 public class Enemy : MonoBehaviour
 {
     [SerializeField] int hp = 20;
@@ -13,6 +12,10 @@ public class Enemy : MonoBehaviour
     Rigidbody2D rb;
     public float friction;
     public float colleague_delay = 0;
+    public int move_speed = 10;
+    public int jump_percentage = 10;
+    public int jump_power = 100;
+    public bool is_ground = true;
 
     // Start is called before the first frame update
     void Start()
@@ -39,11 +42,25 @@ public class Enemy : MonoBehaviour
                 colleague_delay = 0.2f;
             }
         }
+        else is_ground = true;
+    }
+
+    void monster_ai()
+    {
+        int y_val = 0;
+        if (is_ground) if (Random.Range(0, 100) <= jump_percentage)
+            {
+                y_val = jump_power;
+                is_ground = false;
+            }
+        rb.AddForce(new Vector2((player.GetComponent<Transform>().position.x < this.GetComponent<Transform>().position.x ? -1 : 1) * move_speed, y_val));
+        
     }
     void Update()
     {
-            Vector2 frictionforce = new Vector2(-rb.velocity.x, 0);
-            rb.AddForce(frictionforce * friction, ForceMode2D.Force);
+        Vector2 frictionforce = new Vector2(-rb.velocity.x, 0);
+        rb.AddForce(frictionforce * friction, ForceMode2D.Force);
+        monster_ai();
     }
 
 
@@ -55,9 +72,4 @@ public class Enemy : MonoBehaviour
         }
         else colleague_delay = 0;
     }
-
-
-
-    // navigate (몬스터 ai)
-    // issue - 만들줄 모른다! - 누군가 만들어주길 요망.
 }
