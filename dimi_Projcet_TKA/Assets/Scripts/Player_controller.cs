@@ -13,7 +13,7 @@ public class Player_controller : MonoBehaviour
     private Rigidbody2D rb; // 플레이어의 Rigidbody2D 컴포넌트
     Collider2D footC; // 발 충돌체
     public bool isGround = false; // 플레이어가 바닥에 있는지 여부
-    private float jumpBufferTime = 0.2f; // 점프 버퍼링 지연 시간
+    private float jumpBufferTime = 0.3f; // 점프 버퍼링 지연 시간
     private bool isJumpBuffered = false; // 점프 입력 버퍼링 여부
     public float lastRotation = 1; // 플레이어가 바라보고 있는 방향.
     public int hp = 100; // 플레이어 hp
@@ -46,7 +46,19 @@ public class Player_controller : MonoBehaviour
             if (horizontalInput > 0) { lastRotation = 1; }
             else { lastRotation = -1; }
         }
-         
+
+        if (jumpBufferTime > 0)
+        {
+            if (isGround)
+            {
+                isJumpBuffered = false;
+                canJump = false;
+                isGround = false;
+                Jump();
+                jumpBufferTime = 0;
+            }
+        }
+
 
         // 플레이어에게 가해지는 마찰력을 계산합니다.
         Vector2 frictionForce = new Vector2(-rb.velocity.x * friction, 0);
@@ -63,24 +75,27 @@ public class Player_controller : MonoBehaviour
         {
             canJump = true;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isGround)
+            if (canJump)
             {
-                // 바닥에 있으면 일반 점프 실행
-                canJump = false;
-                isGround = false;
-                Jump();
+                if (isGround)
+                {
+                    // 바닥에 있으면 일반 점프 실행
+                    canJump = false;
+                    isGround = false;
+                    Jump();
+                }
             }
             else
             {
-                // 바닥에 없으면 점프 입력 버퍼링
-                isJumpBuffered = true;
-                jumpBufferTime = 0.3f; // 버퍼링 시간 초기화
+                if (!isGround)
+                {
+                    isJumpBuffered = true;
+                    jumpBufferTime = 0.3f; // 버퍼링 시간 초기화
+                }
             }
-
         }
-
     }
 
     private bool canJump = true; // 점프 가능 여부
@@ -96,16 +111,10 @@ public class Player_controller : MonoBehaviour
         // 점프 버퍼링 확인 및 실행
         if (isJumpBuffered && !isGround)
         {
-            if (jumpBufferTime < 0)
+            if (jumpBufferTime > 0)
             {
                 jumpBufferTime -= Time.deltaTime;
-            }
-            else
-            {
-                isJumpBuffered = false;
-                canJump = false;
-                isGround = false;
-                Jump();
+                return;
             }
         }
 

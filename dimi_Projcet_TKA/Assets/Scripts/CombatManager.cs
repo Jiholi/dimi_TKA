@@ -37,6 +37,7 @@ public class CombatManager : MonoBehaviour
     void LeftClick()
     { 
         Slash();
+        
     }
 
     void RightClick()
