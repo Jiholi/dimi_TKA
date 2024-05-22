@@ -6,54 +6,55 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int Damage = 5;    
+    public int Damage = 5;
     /// <summary>
-    /// ì´ì•Œì´ ì‚­ì œë  ë•Œ ê¹Œì§€ ê±¸ë¦¬ëŠ” ì‹œê°„.
+    /// ÃÑ¾ËÀÌ »èÁ¦µÉ ¶§ ±îÁö °É¸®´Â ½Ã°£.
     /// </summary>
-    [SerializeField] float lifeTime; 
+    [SerializeField] float lifeTime;
     /// <summary>
-    /// ì´ì•Œ ì¢…ë¥˜. bullet/slash/lazer ìˆœì„œëŒ€ë¡œ 1/2/3
+    /// ÃÑ¾Ë Á¾·ù. bullet/slash/lazer ¼ø¼­´ë·Î 1/2/3
     /// </summary>
-    [SerializeField] int attackType = 1;
+    [SerializeField] int attackType = 2;
     /// <summary>
-    /// íˆ¬ì²™í˜• íƒ„í™˜ì˜ ë°œì‚¬ ê°•ë„.
+    /// ÅõÃ´Çü ÅºÈ¯ÀÇ ¹ß»ç °­µµ.
     /// </summary>
     [SerializeField] int throwPower = 100;
     Rigidbody2D rb;
     GameObject player;
     Transform transf;
 
-    void Start(){
-        
+    void Start()
+    {
+
         player = GameObject.Find("Player");
         Destroy(this.gameObject, lifeTime);
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         transf = this.gameObject.GetComponent<Transform>();
 
-        if(attackType == 1) {
+        if (attackType == 1)
+        {
             defaultBullet(player.GetComponent<CombatManager>().dir * throwPower);
-        } else if(attackType == 2){
-            defaultSlash(player.GetComponent<PlayerController>().lastRotation);
+        }
+        else if (attackType == 2)
+        {
+            defaultSlash(player.GetComponent<Player_controller>().lastRotation);
         }
     }
 
-    void Update(){
-        
+    void Update()
+    {
+
     }
 
-    void defaultSlash(float rot){
-        if(rot > 0){ transf.localPosition = new Vector2(2.3f, 0); }
-        else { transf.localPosition= new Vector2(-2.3f, 0);} 
+    void defaultSlash(float rot)
+    {
+        if (rot > 0) { transf.localPosition = new Vector2(2.7f, 0); }
+        else { transf.localPosition = new Vector2(-2.7f, 0); }
     }
 
     void defaultBullet(Vector3 throwDirection)
     {
-        rb.AddForce(throwDirection * throwPower);       
-        Debug.Log("shoot"); 
-    }
-
-    void charge()
-    {
-
+        rb.AddForce(throwDirection * throwPower);
+        Debug.Log("shoot");
     }
 }

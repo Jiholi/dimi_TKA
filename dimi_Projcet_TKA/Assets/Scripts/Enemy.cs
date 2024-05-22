@@ -6,31 +6,38 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]int hp = 20;
-    Collider2D collid ; // ÏΩúÎùºÏù¥Îçî
+    [SerializeField] int hp = 20;
+    Collider2D collid; // ƒ›∂Û¿Ã¥ı
+    GameObject player;
     public GameObject me;
+    Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player");
         this.collid = GetComponent<Collider2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    //ÌîºÍ≤© ÌåêÏ†ï
+    //««∞› ∆«¡§
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Bullet") {
+        if (other.tag == "Bullet")
+        {
+            int n = 1000;
             int damage = other.GetComponent<Bullet>().Damage;
-            Debug.Log("Ï∂©Îèå");
+            Debug.Log("√Êµπ");
+            rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation  * n, 1000));
             hp = hp - damage;
-            if ( hp <= 0 ){Destroy(me); Debug.Log("this object dead");}  
+            if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
         }
     }
 
-    
-    
-    
 
-    // navigate (Î™¨Ïä§ÌÑ∞ ai)
-    // issue - ÎßåÎì§Ï§Ñ Î™®Î•∏Îã§! - ÎàÑÍµ∞Í∞Ä ÎßåÎì§Ïñ¥Ï£ºÍ∏∏ ÏöîÎßù.
+
+
+
+    // navigate (∏ÛΩ∫≈Õ ai)
+    // issue - ∏∏µÈ¡Ÿ ∏∏•¥Ÿ! - ¥©±∫∞° ∏∏µÈæÓ¡÷±Ê ø‰∏¡.
 }
