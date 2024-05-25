@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] int hp = 20;
-    Collider2D collid; // ƒ›∂Û¿Ã¥ı
+    Collider2D collid; // ÔøΩ›∂ÔøΩÔøΩÃ¥ÔøΩ
     GameObject player;
     public GameObject me;
     Rigidbody2D rb;
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     public int jump_power = 100;
     public bool is_ground = true;
     public int attack_power = 10;
-    float stunDuration=0f;
+    float stunDuration = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,6 @@ public class Enemy : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    //««∞› ∆«¡§
     void OnTriggerEnter2D(Collider2D other)
     {
 
@@ -38,7 +37,7 @@ public class Enemy : MonoBehaviour
                 {
                     int n = 1500;
                     int damage = other.GetComponent<Bullet>().Damage;
-                    Debug.Log("√Êµπ");
+                    Debug.Log("Ï∂©Îèå");
                     rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n, 500));
                     hp = hp - damage;
                     if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
@@ -64,8 +63,10 @@ public class Enemy : MonoBehaviour
                     y_val = jump_power;
                     is_ground = false;
                 }
-            rb.AddForce(new Vector2((player.GetComponent<Transform>().position.x < this.GetComponent<Transform>().position.x ? -1 : 1) * move_speed, y_val));
+            rb.AddForce(new Vector2((player.GetComponent<Transform>().position.x < this.GetComponent<Transform>().position.x ? -1 : 1) * move_speed, 0));
     }
+
+
     void Update()
     {
         Vector2 frictionforce = new Vector2(-rb.velocity.x, 0);

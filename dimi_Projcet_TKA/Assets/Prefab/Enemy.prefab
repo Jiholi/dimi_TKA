@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 138084700398808828}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,6 +50,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 200
   me: {fileID: 3199861626825785382}
+  friction: 0
+  colleague_delay: 0
+  move_speed: 10
+  jump_percentage: 10
+  jump_power: 100
+  is_ground: 1
+  attack_power: 10
 --- !u!212 &7487775775980317116
 SpriteRenderer:
   m_ObjectHideFlags: 0
