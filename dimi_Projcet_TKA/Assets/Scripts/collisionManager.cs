@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class collisionManager : MonoBehaviour
 {
-    public int hp = 100; // 플레이어 hp
+    public int hp = 100; // 플레이어 Hp
     [SerializeField]int fullHp = 100;
     float collisionCooltime =  0f; // 쿨타임 유효 시간
     [SerializeField] float standardCollsionColltime =  0.7f;
