@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 public class Dash : MonoBehaviour
 {
     public float lenth = 2f;
@@ -11,6 +8,7 @@ public class Dash : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(1))
         {
+            closestEnemy = null;
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(mousePos,lenth);
             float closestDistance = Mathf.Infinity;
@@ -26,9 +24,9 @@ public class Dash : MonoBehaviour
                     }
                 }
             }
-            if (closestEnemy != null && Physics2D.Raycast(transform.position, closestEnemy.transform.position, Mathf.Infinity, 7))
+            if (closestEnemy != null && !Physics2D.Raycast(transform.position, (closestEnemy.transform.position-transform.position).normalized, Mathf.Infinity, 1<<7))
             {
-                print("Dash");
+                Debug.Log("Dash");
                 StartCoroutine(dash());
             }
         }
@@ -38,11 +36,14 @@ public class Dash : MonoBehaviour
         Vector2 dir = closestEnemy.transform.position - transform.position.normalized*2;
         float timer = 0;
         float dashTime = 0.1f;
+        BoxCollider2D c2d = GetComponent<BoxCollider2D>();
         while (timer < dashTime)
         {
+            c2d.enabled = false;
             timer += Time.deltaTime;
             yield return new WaitForSecondsRealtime(0.01f);
             transform.position = Vector3.Lerp(transform.position, dir, timer / dashTime);
         }
+        c2d.enabled = true;
     }
 }
