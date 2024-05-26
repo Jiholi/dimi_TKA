@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player_controller : MonoBehaviour
 {
@@ -34,12 +35,13 @@ public class Player_controller : MonoBehaviour
 
     private void Update()
     {
+        Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GameObject.FindGameObjectWithTag("Enemy").GetComponent<BoxCollider2D>(), true);
         float horizontalInput = Input.GetAxis("Horizontal"); // 수평 입력 값
         Vector2 moveDirection = new Vector2(horizontalInput, 0); // 이동 방향 벡터
 
         // 플레이어에게 가해지는 마찰력을 계산합니다.
         Vector2 frictionForce = new Vector2(-rb.velocity.x * friction, 0);
-        rb.AddForce(frictionForce, ForceMode2D.Force);
+        rb.AddForce(frictionForce, ForceMode2D.Force); 
 
         // 플레이어에게 이동 힘을 가합니다.
         rb.AddForce(moveDirection * speed);

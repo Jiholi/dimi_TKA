@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ' parkour'
   - parkour
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -13,9 +14,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Player
+  - Entity
   - Ground
-  - 
+  - Enemy
   - 
   - 
   - 
