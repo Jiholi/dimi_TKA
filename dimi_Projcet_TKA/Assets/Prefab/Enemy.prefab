@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef9e7c6e4feacd41a74905d39e8af66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 200
+  hp: 150
   me: {fileID: 3199861626825785382}
   friction: 0
   colleague_delay: 0

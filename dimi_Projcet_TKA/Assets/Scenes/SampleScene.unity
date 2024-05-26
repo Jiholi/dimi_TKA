@@ -1087,7 +1087,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Melee: {fileID: 1269922323113317623, guid: dc5a3f1b61fc4c14dbffb9f73154b35c, type: 3}
-  Player: {fileID: 843851743}
+  JumpMelee: {fileID: 5512092776711347428, guid: 166c57e81ed506e4fb80658bf839bf28, type: 3}
+  playerPos: {fileID: 843851743}
   dir: {x: 0, y: 0, z: 0}
   delay: 0
 --- !u!251 &843851745

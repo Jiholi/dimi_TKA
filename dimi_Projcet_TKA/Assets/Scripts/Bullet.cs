@@ -8,15 +8,15 @@ public class Bullet : MonoBehaviour
 {
     public int Damage = 5;
     /// <summary>
-    /// ÃÑ¾ËÀÌ »èÁ¦µÉ ¶§ ±îÁö °É¸®´Â ½Ã°£.
+    /// ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½.
     /// </summary>
     [SerializeField] float lifeTime;
     /// <summary>
-    /// ÃÑ¾Ë Á¾·ù. bullet/slash/lazer ¼ø¼­´ë·Î 1/2/3
+    /// ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½ï¿½. bullet/slash/lazer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1/2/3
     /// </summary>
     [SerializeField] int attackType = 2;
     /// <summary>
-    /// ÅõÃ´Çü ÅºÈ¯ÀÇ ¹ß»ç °­µµ.
+    /// ï¿½ï¿½Ã´ï¿½ï¿½ ÅºÈ¯ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [SerializeField] int throwPower = 100;
     Rigidbody2D rb;
@@ -48,7 +48,8 @@ public class Bullet : MonoBehaviour
 
     void defaultSlash(float rot)
     {
-        if (rot > 0) { transf.localPosition = new Vector2(2.7f, 0); }
+        if(player.GetComponent<CombatManager>().isJumpMelee){}
+        else if (rot > 0) { transf.localPosition = new Vector2(2.7f, 0); }
         else { transf.localPosition = new Vector2(-2.7f, 0); }
     }
 

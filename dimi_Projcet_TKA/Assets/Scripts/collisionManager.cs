@@ -14,10 +14,12 @@ public class collisionManager : MonoBehaviour
     public Rigidbody2D rb ; // 플레이어 rigidbody;
     public Transform tr;
     Collider2D col;
+    GameObject player;
 
     void Start(){
         col = GetComponent<Collider2D>();
         hp = fullHp;
+        player = GameObject.Find("Player");
     }
 
     void Update(){
@@ -34,7 +36,8 @@ public class collisionManager : MonoBehaviour
         if ( other.tag.Equals("Enemy"))
         {
             enemyPos = other.GetComponent<Transform>().position;
-            if ( tr.position.x > enemyPos.x && collisionCooltime <= 0) { rb.AddForce(new Vector2(1 * horizontalCollsionPow, verticalCollsionPow)); collisionCooltime = standardCollsionColltime; hp -= other.GetComponent<Enemy>().attack_power;}
+            if(player.GetComponent<Player_controller>().isGround){}
+            else if ( tr.position.x > enemyPos.x && collisionCooltime <= 0) { rb.AddForce(new Vector2(1 * horizontalCollsionPow, verticalCollsionPow)); collisionCooltime = standardCollsionColltime; hp -= other.GetComponent<Enemy>().attack_power;}
             else if(collisionCooltime <= 0){ rb.AddForce(new Vector2(-1 * horizontalCollsionPow , verticalCollsionPow)); Debug.Log("Attacked"); collisionCooltime = standardCollsionColltime; hp -= other.GetComponent<Enemy>().attack_power;}
 
             if (hp <= 0)
