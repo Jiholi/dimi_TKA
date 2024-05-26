@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] int hp = 20;
-    Collider2D collid; // �ݶ��̴�
+    Collider2D collid; 
     GameObject player;
     public GameObject me;
     Rigidbody2D rb;
