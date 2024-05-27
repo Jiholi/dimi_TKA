@@ -35,7 +35,8 @@ public class Enemy : MonoBehaviour
 
                 if (colleague_delay == 0)
                 {
-                    int n = 1500;
+                    rb.velocity = new Vector2(0, 0);
+                    int n = 2000;
                     int damage = other.GetComponent<Bullet>().Damage;
                     Debug.Log("충돌");
                     rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n, 500));

@@ -63,7 +63,7 @@ public class CombatManager : MonoBehaviour
 
     void Slash()
     {
-        int horizontalJumpPow = 750;
+        int horizontalJumpPow = 1250;
         int verticalJumpPow = 250;
         bool isAtatacking;
         if (delay <= 0)
