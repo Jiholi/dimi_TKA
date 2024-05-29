@@ -36,14 +36,14 @@ public class Enemy : MonoBehaviour
                 if (colleague_delay == 0)
                 {
                     rb.velocity = new Vector2(0, 0);
-                    int n = 2000;
+                    int n = 1500;
                     int damage = other.GetComponent<Bullet>().Damage;
                     Debug.Log("충돌");
-                    rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n, 500));
+                    rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n*((player.GetComponent<Player_controller>().speeder+1.4f)*1.7f), 200));
                     hp = hp - damage;
                     if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
                     colleague_delay = 0.2f;
-                    stunDuration = 0.5f;
+                    stunDuration = 0.9f;
 
             }
                 is_ground = false;
@@ -67,12 +67,13 @@ public class Enemy : MonoBehaviour
             rb.AddForce(new Vector2((player.GetComponent<Transform>().position.x < this.GetComponent<Transform>().position.x ? -1 : 1) * move_speed, 0));
     }
 
-
     void Update()
     {
         Vector2 frictionforce = new Vector2(-rb.velocity.x, 0);
         rb.AddForce(frictionforce * friction, ForceMode2D.Force);
         monster_ai();
+
+        
     }
 
 

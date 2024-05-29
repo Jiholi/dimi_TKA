@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player_controller : MonoBehaviour
 {
-
+    Animator Run;
+    Animator jump;
     [SerializeField] float speed = 10; // 플레이어 이동 속도
     [SerializeField] float jumpingPower = 10; // 플레이어 점프 힘
     [SerializeField] float friction = 6f; // 플레이어 마찰력
@@ -16,12 +17,13 @@ public class Player_controller : MonoBehaviour
     private bool canJump = true; // 점프 가능 여부
     public bool isGround = false; // 플레이어가 바닥에 있는지 여부
     public float lastRotation = 1; // 플레이어가 바라보고 있는 방향.
+    public int speeder;
     
     Transform tr;
     Collider2D col;
     Rigidbody2D rb; // 플레이어의 Rigidbody2D 컴포넌트
     Collider2D footC; // 발 충돌체
-    
+    SpriteRenderer spriteRenderer;
 
     void Awake()
     {
@@ -33,6 +35,9 @@ public class Player_controller : MonoBehaviour
         tr = this.GetComponent<Transform>();
         rb = this.GetComponent<Rigidbody2D>();
         footC = groundCheck.GetComponent<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        Run = GetComponent<Animator>();
+        jump = GetComponent<Animator>();
     }
 
     void OnTriggerEnter2D(Collider2D footC)
@@ -44,7 +49,20 @@ public class Player_controller : MonoBehaviour
     void Update()
     {
 
-        
+        if(Input.GetKeyDown("a")&&lastRotation==1){
+                transform.localScale = new Vector3(-1.5f,1.5f,0);
+        }
+        if(Input.GetKeyDown("d")&&lastRotation==-1){
+            transform.localScale = new Vector3(1.5f,1.5f,0);
+        }
+        if(Input.GetButton("Horizontal")){
+            Run.SetBool("Isrunning",true);
+            speeder=1;
+        }
+        else{
+            Run.SetBool("Isrunning",false);
+            speeder=0;
+        }
         float horizontalInput = Input.GetAxis("Horizontal"); // 수평 입력 값
         Vector2 moveDirection = new Vector2(horizontalInput, 0); // 이동 방향 벡터
 
@@ -68,6 +86,7 @@ public class Player_controller : MonoBehaviour
         if (isGround == true)
         {
             canJump = true;
+            jump.SetBool("Isjumping",false);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -80,6 +99,11 @@ public class Player_controller : MonoBehaviour
                 Jump();
             }
         }
+            if (!canJump||!isGround)
+            {
+                //     바닥에 있으면 일반 점프 실행
+                jump.SetBool("Isjumping",true);
+            }
     }
 
 
@@ -88,5 +112,6 @@ public class Player_controller : MonoBehaviour
         rb.AddForce(new Vector2(0, jumpingPower / 28.0f * 23.5f));
         isGround = false;
         canJump = false;
+        
     }
 }

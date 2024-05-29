@@ -7,17 +7,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int Damage = 5;
-    /// <summary>
-    /// �Ѿ��� ������ �� ���� �ɸ��� �ð�.
-    /// </summary>
+
     [SerializeField] float lifeTime;
-    /// <summary>
-    /// �Ѿ� ����. bullet/slash/lazer ������� 1/2/3
-    /// </summary>
+
     [SerializeField] int attackType = 2;
-    /// <summary>
-    /// ��ô�� źȯ�� �߻� ����.
-    /// </summary>
+
     [SerializeField] int throwPower = 100;
     Rigidbody2D rb;
     GameObject player;
@@ -37,20 +31,18 @@ public class Bullet : MonoBehaviour
         }
         else if (attackType == 2)
         {
-            defaultSlash(player.GetComponent<Player_controller>().lastRotation);
+            defaultSlash();
         }
     }
 
     void Update()
     {
-
     }
 
-    void defaultSlash(float rot)
+    void defaultSlash()
     {
         if(player.GetComponent<CombatManager>().isJumpMelee){}
-        else if (rot > 0) { transf.localPosition = new Vector2(2.7f, 0); }
-        else { transf.localPosition = new Vector2(-2.7f, 0); }
+        else { transf.localPosition = new Vector2(0.1f, 1.2f); }
     }
 
     void defaultBullet(Vector3 throwDirection)
