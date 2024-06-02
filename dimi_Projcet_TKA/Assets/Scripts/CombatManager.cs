@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviour
@@ -53,9 +52,12 @@ public class CombatManager : MonoBehaviour
         if (Input.GetKeyDown("w")) { pushW(); }
 
         dir = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -cam.transform.position.z));
-        if(player.GetComponent<Player_controller>().isGround) {
+
+        if(player.GetComponent<Player_controller>().isGround) 
+        {
             LastisJumpMelee = false;
         }
+        
         if(Input.GetMouseButtonDown(0)&&isAtatacking ==true){
             if(attacktype==0){
             Attack.SetBool("IsAttacking2",false);

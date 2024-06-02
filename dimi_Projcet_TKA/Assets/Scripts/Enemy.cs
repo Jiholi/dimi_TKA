@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
                 if (colleague_delay == 0)
                 {
                     rb.velocity = new Vector2(0, 0);
-                    int n = 1500;
+                    int n = 1400;
                     int damage = other.GetComponent<Bullet>().Damage;
                     Debug.Log("충돌");
                     rb.AddForce(new Vector2(player.GetComponent<Player_controller>().lastRotation * n*((player.GetComponent<Player_controller>().speeder+1.4f)*1.7f), 200));
@@ -48,10 +48,16 @@ public class Enemy : MonoBehaviour
             }
                 is_ground = false;
             }
+            else if (other.tag == "Dash" && player.GetComponent<Dash>().isdashing)
+            {
+                stunDuration = 0.8f;
+                hp = hp - 5;
+                if (hp <= 0) { Destroy(me); Debug.Log("this object dead"); }
+            }
             else is_ground = true;
     }
 
-    void monster_ai()
+    /*void monster_ai()
     {
         if (stunDuration > 0.0f)
         {
@@ -65,20 +71,22 @@ public class Enemy : MonoBehaviour
                     is_ground = false;
                 }
             rb.AddForce(new Vector2((player.GetComponent<Transform>().position.x < this.GetComponent<Transform>().position.x ? -1 : 1) * move_speed, 0));
-    }
+    }*/
 
     void Update()
     {
         Vector2 frictionforce = new Vector2(-rb.velocity.x, 0);
         rb.AddForce(frictionforce * friction, ForceMode2D.Force);
-        monster_ai();
-
+        //monster_ai();
         
     }
 
 
     private void FixedUpdate()
     {
+        if(transform.position.y<-100){
+        transform.position =new Vector2(0,0);
+        }
         if (colleague_delay > 0)
         {
             colleague_delay -= Time.deltaTime;

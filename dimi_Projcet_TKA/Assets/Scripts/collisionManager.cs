@@ -29,7 +29,7 @@ public class collisionManager : MonoBehaviour
 
 
     // 적과의 충돌 판정
-    void OnTriggerEnter2D(Collider2D other)
+    /*void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Collid");
         Vector2 enemyPos;
@@ -45,7 +45,7 @@ public class collisionManager : MonoBehaviour
                 TurnBack();
             }
         }
-    }
+    }*/
 
     void TurnBack()
     {

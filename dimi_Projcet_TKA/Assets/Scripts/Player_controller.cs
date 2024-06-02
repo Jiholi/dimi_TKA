@@ -49,61 +49,62 @@ public class Player_controller : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKeyDown("a")&&lastRotation==1){
-                transform.localScale = new Vector3(-1.5f,1.5f,0);
-        }
-        if(Input.GetKeyDown("d")&&lastRotation==-1){
-            transform.localScale = new Vector3(1.5f,1.5f,0);
-        }
-        if(Input.GetButton("Horizontal")){
-            Run.SetBool("Isrunning",true);
-            speeder=1;
-        }
-        else{
-            Run.SetBool("Isrunning",false);
-            speeder=0;
-        }
-        float horizontalInput = Input.GetAxis("Horizontal"); // 수평 입력 값
-        Vector2 moveDirection = new Vector2(horizontalInput, 0); // 이동 방향 벡터
-
-        if (horizontalInput != 0)
-        {
-            if (horizontalInput > 0) { lastRotation = 1; }
-            else { lastRotation = -1; }
-        }
-
         // 플레이어에게 가해지는 마찰력을 계산합니다.
         Vector2 frictionForce = new Vector2(-rb.velocity.x * friction, 0);
         rb.AddForce(frictionForce, ForceMode2D.Force);
+        
+        if(this.GetComponent<Dash>().cancontrol ==true){
+                            // 플레이어의 속력을 제한하여 최대 속력을 유지합니다.
+            Vector2 clampedVelocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
+            rb.velocity = clampedVelocity;
+            if(Input.GetKeyDown("a")&&lastRotation==1){
+                    transform.localScale = new Vector3(-1.5f,1.5f,0);
+            }
+            if(Input.GetKeyDown("d")&&lastRotation==-1){
+                transform.localScale = new Vector3(1.5f,1.5f,0);
+            }
+            if(Input.GetButton("Horizontal")){
+                Run.SetBool("Isrunning",true);
+                speeder=1;
+            }
+            else{
+                Run.SetBool("Isrunning",false);
+                speeder=0;
+            }
+            float horizontalInput = Input.GetAxis("Horizontal"); // 수평 입력 값
+            Vector2 moveDirection = new Vector2(horizontalInput, 0); // 이동 방향 벡터
+
+            if (horizontalInput != 0)
+            {
+                if (horizontalInput > 0) { lastRotation = 1; }
+                else { lastRotation = -1; }
+            }
 
         // 플레이어에게 이동 힘을 가합니다.
-        rb.AddForce(moveDirection * speed);
+            rb.AddForce(moveDirection * speed);
 
-        // 플레이어의 속력을 제한하여 최대 속력을 유지합니다.
-        Vector2 clampedVelocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
-        rb.velocity = clampedVelocity;
-
-        if (isGround == true)
-        {
-            canJump = true;
-            jump.SetBool("Isjumping",false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (canJump&&isGround)
+            if (isGround == true)
             {
-                //     바닥에 있으면 일반 점프 실행
-                canJump = false;
-                isGround = false;
-                Jump();
+                canJump = true;
+                jump.SetBool("Isjumping",false);
             }
-        }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (canJump&&isGround)
+                {
+                //     바닥에 있으면 일반 점프 실행
+                    canJump = false;
+                    isGround = false;
+                    Jump();
+                }
+            }
             if (!canJump||!isGround)
             {
                 //     바닥에 있으면 일반 점프 실행
                 jump.SetBool("Isjumping",true);
             }
+        }
     }
 
 

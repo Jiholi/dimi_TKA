@@ -8,6 +8,7 @@ TagManager:
   - parkour
   - Bullet
   - Enemy
+  - Dash
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - Player
   - Ground
-  - 
-  - 
+  - Enemy
+  - spider
   - 
   - 
   - 
